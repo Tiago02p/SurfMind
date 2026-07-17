@@ -1,8 +1,8 @@
-# 🌊 SurfMind
+# SurfMind
 
 App para registo de sessões de surf, analisa condições marítimas e gera recomendações personalizadas.
 
-## 🚀 Tecnologias
+## Tecnologias
 
 - **Python**
 - **FastAPI** — Framework REST api
