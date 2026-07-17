@@ -6,13 +6,27 @@ App para registo de sessões de surf, analisa condições marítimas e gera reco
 
 - **Python**
 - **FastAPI** — Framework REST api
-- **PostgreSQL** — Base de dados relacional
-- **Docker & Docker Compose** — Ambiente de desenvolvimento
+- **Ambiente Virtual (venv)** — Ambiente de desenvolvimento
 
 ---
 
-### Iniciar os serviços
+### Ativar Ambiente Virtual
 
 ```bash
-docker compose up --build
+python -m venv .venv
+python -m pip install --upgrade pip
+echo "*" > .venv/.gitignore
 ```
+
+```bash
+.venv\Scripts\Activate.ps1 (Windows)
+deactivate
+```
+
+---
+
+### Start Up
+
+```bash
+fastapi dev
+``` 
