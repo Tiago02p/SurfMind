@@ -1,26 +1,28 @@
 # SurfMind
 
-App para registo de sessões de surf, analisa condições marítimas e gera recomendações personalizadas.
+App for logging surf sessions, analyzing maritime conditions, and generating personalized recommendations.
 
-## Tecnologias
+## Technologies
 
 - **Python**
-- **FastAPI** — Framework REST api
-- **Ambiente Virtual (venv)** — Ambiente de desenvolvimento
+- **FastAPI** — REST API framework
+- **Virtual Environment (venv)** — Development environment
 
 ---
 
-### Ativar Ambiente Virtual
+### Activate Virtual Environment
 
 ```bash
 python -m venv .venv
 python -m pip install --upgrade pip
 echo "*" > .venv/.gitignore
+
 ```
 
 ```bash
 .venv\Scripts\Activate.ps1 (Windows)
 deactivate
+
 ```
 
 ---
@@ -29,4 +31,5 @@ deactivate
 
 ```bash
 fastapi dev
-``` 
+
+```
