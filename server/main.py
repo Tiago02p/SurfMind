@@ -4,16 +4,16 @@ from fastapi import Depends, FastAPI, HTTPException, Query # type: ignore[import
 from pydantic import BaseModel
 from sqlmodel import Field, SQLModel, create_engine
 
-# SQLModel,table=True table in the SQL
-class SurfSession(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True), # id is PK and id=None means its generated
-    rating: float = Field(index=True)
-
 sqlite_file="database.db"
 sqlite_url=f"sqlite:///{sqlite_file}"
 
 connect_args={"check_same_thread": False} # needed for SQLite
 engine=create_engine(sqlite_url, echo=True, connect_args=connect_args)
+
+# SQLModel,table=True table in the SQL
+class SurfSession(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True) # id is PK and id=None means its generated
+    rating: float = Field(index=True)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
