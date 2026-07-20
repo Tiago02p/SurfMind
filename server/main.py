@@ -1,29 +1,25 @@
 from typing_extensions import Annotated
+from fastapi import Depends, FastAPI, HTTPException, Query
+from sqlmodel import Field, SQLModel, create_engine, Session, select
 
-from fastapi import Depends, FastAPI, HTTPException, Query # type: ignore[import]
-from pydantic import BaseModel
-from sqlmodel import Field, SQLModel, create_engine
+sqlite_file = "database.db"
+sqlite_url = f"sqlite:///{sqlite_file}"
 
-sqlite_file="database.db"
-sqlite_url=f"sqlite:///{sqlite_file}"
+connect_args = {"check_same_thread": False} # needed for SQLite
+engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
 
-connect_args={"check_same_thread": False} # needed for SQLite
-engine=create_engine(sqlite_url, echo=True, connect_args=connect_args)
-
-# SQLModel,table=True table in the SQL
 class SurfSession(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True) # id is PK and id=None means its generated
+    id: int | None = Field(default=None, primary_key=True)
     rating: float = Field(index=True)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
-
 def get_session():
-    with SurfSession(engine) as session:
+    with Session(engine) as session:
         yield session
 
-SessionDep = Annotated[SurfSession, Depends(get_session)]
+SessionDep = Annotated[Session, Depends(get_session)]
 
 app = FastAPI()
 
@@ -48,7 +44,8 @@ def read_sessions(
     offset: int = 0, 
     limit: Annotated[int, Query(le=100)] = 100
 ) -> list[SurfSession]:
-    surfsessions = session_dep.query(SurfSession).offset(offset).limit(limit).all()
+    statement = select(SurfSession).offset(offset).limit(limit)
+    surfsessions = session_dep.exec(statement).all()
     return surfsessions
 
 @app.get("/sessions/{session_id}")
